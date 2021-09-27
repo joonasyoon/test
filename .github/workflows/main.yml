@@ -19,8 +19,8 @@ jobs:
           echo "`date "+%Y-%m-%d %H:%M"`" > build/date.txt
           git config user.email "github-action-bot@no-reply.github.com"
           git config user.name "Github Action"
-          git add build
-          git commit -m ":zap: build at `date "+%Y-%m-%d %H:%M"`" && git push
+          git diff build > .diff
+          [ -s .diff ] && git add build && git commit -m ":zap: build at `date "+%Y-%m-%d %H:%M"`" && git push
 
   deploy_to_dev:
     needs: build                              # build 가 끝난 후
