@@ -14,7 +14,8 @@ jobs:
 
       - id: Build
         run: |
-          [ -d build ] && rm -rf build && mkdir build
+          [ -d build ] && rm -rf build
+          mkdir build
           echo "`date "+%Y-%m-%d %H:%M"`" > build/date.txt
           git add build
           git commit -m ":zap: build at `date "+%Y-%m-%d %H:%M"`" && git push
