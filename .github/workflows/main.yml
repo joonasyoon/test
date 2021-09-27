@@ -41,7 +41,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - run: git log -1 --format='%H'
+      - run: |
+          git pull
+          git log -1 --format='%H'
 
       - id: Deploy
         run: |
