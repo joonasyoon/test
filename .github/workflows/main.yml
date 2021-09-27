@@ -1,0 +1,45 @@
+name: React build
+on: 
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: Build
+        run: |
+          rm -rf build
+          mkdir build
+          echo "`date "+%Y-%m-%d %H:%M"`" > build/date.txt
+          git add build
+          git commit -m ":zap: build at `date "+%Y-%m-%d %H:%M"`" && git push
+
+  deploy_to_dev:
+    needs: build                              # build 가 끝난 후
+    if: contains(github.ref, 'dev')           # dev 브랜치에서만
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: Deploy
+        run: |
+          echo "Okay, dev deploy"
+
+  deploy_to_prod:
+    needs: build                              # build 가 끝난 후
+    if: contains(github.ref, 'master')        # master 브랜치에서만
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: Deploy
+        run: |
+          echo "Yeah, master deploy"
